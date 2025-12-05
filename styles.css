@@ -1,0 +1,636 @@
+/* ============================================== */
+/* GERAIS E VARIÁVEIS */
+/* ============================================== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+:root {
+    /* Paleta de Cores */
+    --color-primary: #007BFF; /* Azul Elétrico */
+    --color-primary-dark: #0056b3;
+    --color-text-dark: #333;
+    --color-text-light: #666;
+    --color-bg-light: #F7F7F7;
+    --color-bg-white: #FFFFFF;
+    
+    /* Espaçamento */
+    --max-width: 1200px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--color-bg-light);
+    color: var(--color-text-dark);
+    line-height: 1.6;
+}
+
+a {
+    text-decoration: none;
+    color: var(--color-primary);
+}
+
+/* ============================================== */
+/* 1. CABEÇALHO (HEADER) */
+/* ============================================== */
+.main-header {
+    background-color: var(--color-bg-white);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: sticky; 
+    top: 0;
+    z-index: 100;
+}
+
+.header-container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-text {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    text-decoration: none;
+}
+
+/* Navegação */
+.main-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 25px;
+}
+
+.main-nav a {
+    text-decoration: none;
+    color: var(--color-text-dark);
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.main-nav a:hover {
+    color: var(--color-primary);
+}
+
+/* Ferramentas */
+.user-tools {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.icon {
+    font-style: normal; /* Para ícones de texto */
+    font-size: 1.2rem;
+}
+
+/* Busca */
+.search-box {
+    display: flex;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    overflow: hidden;
+    background-color: white;
+}
+
+.search-box input {
+    padding: 8px 15px;
+    border: none;
+    outline: none;
+    width: 200px;
+}
+
+.search-box button {
+    background-color: var(--color-primary);
+    color: white;
+    border: none;
+    padding: 0 15px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.search-box button:hover {
+    background-color: var(--color-primary-dark);
+}
+
+/* Carrinho */
+.cart-icon {
+    position: relative;
+    font-size: 1.5rem;
+    color: var(--color-text-dark);
+}
+
+.cart-count {
+    position: absolute;
+    top: -8px;
+    right: -10px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+.menu-toggle { display: none; } /* Esconder em desktop */
+
+
+/* ============================================== */
+/* 2. BANNER PRINCIPAL (HERO) */
+/* ============================================== */
+.hero-banner {
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://via.placeholder.com/1200x400?text=Fundo+Tecnologico') center/cover;
+    color: white;
+    padding: 80px 20px;
+    text-align: center;
+}
+
+.hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.hero-content h1 {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+}
+
+.hero-content p {
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+}
+
+.cta-button {
+    background-color: var(--color-primary);
+    color: white;
+    padding: 12px 30px;
+    border-radius: 5px;
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: background-color 0.2s;
+}
+
+.cta-button:hover {
+    background-color: var(--color-primary-dark);
+}
+
+/* ============================================== */
+/* 3. PRODUTOS EM DESTAQUE */
+/* ============================================== */
+.featured-products {
+    max-width: var(--max-width);
+    margin: 60px auto;
+    padding: 0 20px;
+}
+
+.featured-products h2 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 40px;
+}
+
+.product-grid {
+    display: grid;
+    /* 4 colunas em desktop */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+}
+
+.product-card {
+    background-color: var(--color-bg-white);
+    border: 1px solid #EAEAEA;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    flex-grow: 1;
+}
+
+.product-image-container {
+    height: 200px;
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--color-bg-light);
+}
+
+.product-image {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+.product-info {
+    padding: 15px;
+    flex-grow: 1;
+}
+
+.product-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--color-text-dark);
+    margin: 0 0 5px 0;
+    min-height: 2.2rem; /* Garante que todos os nomes tenham o mesmo espaço */
+}
+
+.product-category {
+    font-size: 0.85rem;
+    color: var(--color-text-light);
+    margin-bottom: 10px;
+}
+
+.product-price {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: 15px;
+}
+
+.add-to-cart-btn {
+    width: 100%;
+    background-color: var(--color-primary);
+    color: white;
+    border: none;
+    padding: 12px 0;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: background-color 0.2s;
+}
+
+.add-to-cart-btn:hover {
+    background-color: var(--color-primary-dark);
+}
+
+/* ============================================== */
+/* 4. RODAPÉ (FOOTER) */
+/* ============================================== */
+.main-footer {
+    background-color: var(--color-text-dark);
+    color: var(--color-bg-light);
+    padding: 30px 20px;
+    font-size: 0.9rem;
+}
+
+.footer-container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.main-footer nav a {
+    color: var(--color-bg-light);
+    margin-left: 20px;
+    transition: color 0.2s;
+}
+
+.main-footer nav a:hover {
+    color: var(--color-primary);
+}
+
+
+/* ============================================== */
+/* RESPONSIVIDADE (MOBILE) */
+/* ============================================== */
+@media (max-width: 992px) {
+    /* Oculta a navegação principal no tablet/mobile */
+    .main-nav {
+        display: none;
+    }
+
+    /* Reduz o tamanho da barra de busca */
+    .search-box input {
+        width: 150px;
+        padding: 6px 10px;
+        font-size: 0.9rem;
+    }
+    
+    /* Reorganiza o cabeçalho no mobile */
+    .header-container {
+        padding: 10px 15px;
+    }
+    
+    /* Esconde a barra de busca e navegação */
+    .user-tools {
+        gap: 15px;
+    }
+
+    .hero-content h1 {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Mobile - Header mais compacto */
+    .header-container {
+        flex-wrap: wrap;
+    }
+
+    /* Rodapé */
+    .footer-container {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+    
+    .main-footer nav a {
+        margin: 0 10px;
+    }
+    
+    /* Grid de produtos - 2 colunas */
+    .product-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+
+    .product-card {
+        text-align: center;
+    }
+    
+    .add-to-cart-btn {
+        font-size: 0.9rem;
+    }
+
+    /* ============================================== */
+/* RESPONSIVIDADE E MENU MOBILE (continuação) */
+/* ============================================== */
+
+@media (max-width: 992px) {
+    /* 1. Mostra o botão toggle e esconde a nav por padrão */
+    .menu-toggle {
+        display: block; /* Torna o botão visível */
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 5px;
+        margin-left: 15px;
+        z-index: 101; /* Garante que fique acima da nav que irá abrir */
+    }
+    
+    .menu-toggle .bar {
+        display: block;
+        width: 25px;
+        height: 3px;
+        margin: 5px auto;
+        background-color: var(--color-text-dark);
+        transition: all 0.3s ease-in-out;
+    }
+
+    .main-nav {
+        /* Configuração inicial para o mobile: Escondido, ocupando a tela toda */
+        position: absolute;
+        top: 60px; /* Alinha abaixo do header */
+        left: 0;
+        width: 100%;
+        height: 0; /* Começa com altura zero */
+        background-color: var(--color-bg-white);
+        box-shadow: 0 4px 5px rgba(0, 0, 0, 0.1);
+        overflow: hidden; /* Esconde o conteúdo */
+        transition: height 0.3s ease-in-out;
+    }
+
+    /* 2. Estado 'open' ativado pelo JavaScript */
+    .main-nav.open {
+        height: auto; /* Permite que o menu se expanda para mostrar o conteúdo */
+        padding-bottom: 20px;
+    }
+    
+    /* 3. Estiliza os itens de menu abertos */
+    .main-nav ul {
+        flex-direction: column; /* Lista vertical */
+        text-align: center;
+        gap: 0; /* Remove o espaçamento horizontal */
+        padding-top: 20px;
+    }
+    
+    .main-nav li {
+        border-bottom: 1px solid #eee;
+    }
+
+    .main-nav a {
+        display: block;
+        padding: 15px 0;
+        font-size: 1.1rem;
+        font-weight: 600;
+    }
+    
+    /* Opcional: Para evitar que o conteúdo do site se mova ao abrir o menu */
+    .menu-active {
+        /* Adiciona no <body> via JS para desabilitar o scroll */
+        overflow: hidden;
+    }
+    
+    /* Colocando a busca e os ícones de usuário/carrinho no mesmo nível */
+    .user-tools {
+        order: 3; /* Faz com que ocupe a linha de baixo no flexbox se não houver espaço */
+        width: 100%;
+        justify-content: center;
+        margin-top: 10px;
+    }
+    
+    /* No mobile, o campo de busca pode ser maior */
+    .search-box input {
+        width: 100%; 
+    }
+}
+}
+/* Ocultar quando filtrado */
+.hidden {
+    display: none !important;
+}
+
+/* Contador pulando */
+.cart-bounce {
+    animation: bounce .4s ease;
+}
+
+@keyframes bounce {
+    0%   { transform: scale(1); }
+    30%  { transform: scale(1.3); }
+    100% { transform: scale(1); }
+}
+
+/* Toast */
+.toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    padding: 12px 20px;
+    transform: translateX(-50%) translateY(20px);
+    background: #222;
+    color: #fff;
+    border-radius: 8px;
+    opacity: 0;
+    transition: .3s;
+    z-index: 9999;
+}
+.toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+/* Painel do Carrinho */
+.cart-panel {
+    position: fixed;
+    top: 0;
+    right: -380px; /* escondido */
+    width: 340px;
+    height: 100%;
+    background: #fff;
+    box-shadow: -3px 0 10px rgba(0,0,0,0.2);
+    transition: .3s ease;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+}
+
+.cart-panel.active {
+    right: 0;
+}
+
+.cart-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    display: none;
+    z-index: 9998;
+}
+
+.cart-overlay.active {
+    display: block;
+}
+
+.cart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.cart-header h2 {
+    margin: 0;
+}
+
+.cart-items {
+    flex: 1;
+    overflow-y: auto;
+    border-top: 1px solid #ddd;
+    padding-top: 10px;
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.cart-item-name {
+    font-weight: bold;
+    max-width: 65%;
+}
+
+.cart-footer {
+    border-top: 1px solid #ddd;
+    padding-top: 10px;
+}
+
+.checkout-btn {
+    width: 100%;
+    background: #222;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    margin-top: 8px;
+    cursor: pointer;
+    border-radius: 6px;
+}
+.pix-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+}
+
+.pix-modal.active {
+    display: flex;
+}
+
+.pix-content {
+    background: #fff;
+    width: 90%;
+    max-width: 420px;
+    padding: 25px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(0,0,0,0.2);
+}
+
+.pix-qrcode {
+    margin: 20px 0;
+}
+
+.pix-copy-area {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.pix-copy-area textarea {
+    width: 100%;
+    height: 90px;
+    resize: none;
+    padding: 10px;
+}
+
+#copy-pix {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+#copy-pix:hover {
+    background: #3a9e45;
+}
+
+.close-pix {
+    margin-top: 15px;
+    background: #ccc;
+    border: none;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.close-pix:hover {
+    background: #b1b1b1;
+}
