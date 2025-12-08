@@ -4,149 +4,168 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>⚡️ Vaporize | Sua Loja de Vapes</title>
-    <link rel="stylesheet" href="styles.css"> 
+    <link rel="stylesheet" href="styles.css">
+    <link rel="shortcut icon" href="img/imagemaba.png" type="image/x-icon">
 </head>
+
 <body>
 
+    <!-- ===================== HEADER ===================== -->
     <header class="main-header">
         <div class="header-container">
+
             <a href="#" class="logo">
                 <span class="logo-text">⚡️ Vaporize Store</span>
             </a>
-            
+
             <nav class="main-nav">
-                <ul>
-                    <li><a href="#">Vapes</a></li>
-                    <li><a href="#">Pods</a></li>
-                    <li><a href="#">Juices</a></li>
-                    <li><a href="#">Acessórios</a></li>
-                </ul>
+
             </nav>
-            
+
             <div class="user-tools">
                 <div class="search-box">
-                    <input type="text" placeholder="Buscar vape, pod ou juice..." id="live-search">
+                    <input type="text" id="live-search" placeholder="Buscar vape, pod ou juice...">
                     <button aria-label="Pesquisar"><i class="icon">🔍</i></button>
                 </div>
+
                 <a href="#" class="cart-icon" aria-label="Carrinho de Compras">
                     <i class="icon">🛒</i>
-                    <span class="cart-count">3</span>
+                    <span class="cart-count">0</span>
                 </a>
-                <a href="#" class="user-icon" aria-label="Minha Conta">
-                    <i class="icon">👤</i>
-                </a>
+
             </div>
-            
+
             <button class="menu-toggle" aria-label="Abrir Menu">
                 <span class="bar"></span>
                 <span class="bar"></span>
                 <span class="bar"></span>
             </button>
+
         </div>
     </header>
 
-   
-
-
-
+    <!-- ===================== PRINCIPAL ===================== -->
     <main>
-        
-        <section class="hero-banner">
-            <div class="hero-content">
-                <h1>Os Melhores Vapes e Pods do Brasil.</h1>
-                <p>Explore uma seleção premium de dispositivos, juices e acessórios para sua melhor experiência.</p>
-                <a href="#" class="cta-button">Ver Vapes Populares</a>
-            </div>
-        </section>
 
         <section class="featured-products">
-            <h2>Vapes em Destaque</h2>
-            <div class="product-grid">
-                
-                <div class="product-card">
-                    <a href="produto_detalhe.php?id=1" class="card-link">
-                        <div class="product-image-container">
-                            <img src="img/elfbar.png" alt="Elfbar 5000" class="product-image">
-                        </div>
-                        <div class="product-info">
+            <h2>Produtos em Destaque</h2>
+
+            <div class="carousel-container">
+                <div class="carousel-track">
+
+                    <!-- ==== PRODUTO 1 ==== -->
+                    <div class="carousel-item product-card">
+                        <a href="produto_detalhe.php?id=1" class="card-link">
+                            <img src="img/elfbar.png" alt="Elfbar BC5000">
                             <h3 class="product-name">Elfbar BC5000</h3>
                             <p class="product-category">Vape Descartável</p>
-                            <div class="product-price">R$ 89,90</div>
-                        </div>
-                    </a>
-                    <button class="add-to-cart-btn" data-product-id="1">
-                        <i class="icon">➕</i> Adicionar
-                    </button>
-                </div>
+                            <span class="product-price">R$ 89,90</span>
+                        </a>
+                        <button class="add-to-cart-btn">Adicionar ao Carrinho</button>
+                    </div>
 
-                <div class="product-card">
-                    <a href="produto_detalhe.php?id=2" class="card-link">
-                        <div class="product-image-container">
-                            <img src="img/vapoexpres.jfif" alt="Vaporesso Xros 3" class="product-image">
-                        </div>
-                        <div class="product-info">
+                    <!-- ==== PRODUTO 2 ==== -->
+                    <div class="carousel-item product-card">
+                        <a href="produto_detalhe.php?id=2" class="card-link">
+                            <img src="img/vapoexpres.jfif" alt="Vaporesso XROS 3">
                             <h3 class="product-name">Vaporesso XROS 3</h3>
                             <p class="product-category">Pod System</p>
-                            <div class="product-price">R$ 199,90</div>
-                        </div>
-                    </a>
-                    <button class="add-to-cart-btn" data-product-id="2">
-                        <i class="icon">➕</i> Adicionar
-                    </button>
-                </div>
-                
-                <div class="product-card">
-                    <a href="produto_detalhe.php?id=3" class="card-link">
-                        <div class="product-image-container">
-                            <img src="img/myjuiceuva.webp" alt="Juice Premium 30ml" class="product-image">
-                        </div>
-                        <div class="product-info">
+                            <span class="product-price">R$ 199,90</span>
+                        </a>
+                        <button class="add-to-cart-btn">Adicionar ao Carrinho</button>
+                    </div>
+
+                    <!-- ==== PRODUTO 3 ==== -->
+                    <div class="carousel-item product-card">
+                        <a href="produto_detalhe.php?id=3" class="card-link">
+                            <img src="img/myjuiceuva.webp" alt="Juice Premium 30ml">
                             <h3 class="product-name">Juice Premium 30ml</h3>
                             <p class="product-category">Juices e Sabores</p>
-                            <div class="product-price">R$ 39,90</div>
-                        </div>
-                    </a>
-                    <button class="add-to-cart-btn" data-product-id="3">
-                        <i class="icon">➕</i> Adicionar
-                    </button>
-                </div>
+                            <span class="product-price">R$ 39,90</span>
+                        </a>
+                        <button class="add-to-cart-btn">Adicionar ao Carrinho</button>
+                    </div>
 
-                <div class="product-card">
-                    <a href="produto_detalhe.php?id=4" class="card-link">
-                        <div class="product-image-container">
-                            <img src="img/cabousb.jfif" alt="Cabo USB-C para Pods" class="product-image">
-                        </div>
-                        <div class="product-info">
+                    <!-- ==== PRODUTO 4 ==== -->
+                    <div class="carousel-item product-card">
+                        <a href="produto_detalhe.php?id=4" class="card-link">
+                            <img src="img/cabousb.jfif" alt="Cabo USB-C">
                             <h3 class="product-name">Cabo USB-C para Pods</h3>
                             <p class="product-category">Acessórios</p>
-                            <div class="product-price">R$ 19,90</div>
-                        </div>
-                    </a>
-                    <button class="add-to-cart-btn" data-product-id="4">
-                        <i class="icon">➕</i> Adicionar
-                    </button>
-                </div>
+                            <span class="product-price">R$ 19,90</span>
+                        </a>
+                        <button class="add-to-cart-btn">Adicionar ao Carrinho</button>
+                    </div>
 
+                    <!-- ==== PRODUTO 5 ==== -->
+                    <div class="carousel-item product-card">
+                        <a href="produto_detalhe.php?id=5" class="card-link">
+                            <img src="img/ignite.webp" alt="Ignite V15000">
+                            <h3 class="product-name">Ignite V15000</h3>
+                            <p class="product-category">Vape Premium</p>
+                            <span class="product-price">R$ 149,90</span>
+                        </a>
+                        <button class="add-to-cart-btn">Adicionar ao Carrinho</button>
+                    </div>
+
+                    <!-- ==== PRODUTO 6 ==== -->
+                    <div class="carousel-item product-card">
+                        <a href="produto_detalhe.php?id=9" class="card-link">
+                            <img src="img/voopoo.jfif" alt="VooPoo Argus P1">
+                            <h3 class="product-name">VooPoo Argus P1</h3>
+                            <p class="product-category">Pod System</p>
+                            <span class="product-price">R$ 179,90</span>
+                        </a>
+                        <button class="add-to-cart-btn">Adicionar ao Carrinho</button>
+                    </div>
+
+                    <!-- ==== PRODUTO 7 ==== -->
+                    <div class="carousel-item product-card">
+                        <a href="produto_detalhe.php?id=10" class="card-link">
+                            <img src="img/vapo.jfif" alt="Vaporesso Zero 2">
+                            <h3 class="product-name">Vaporesso Zero 2</h3>
+                            <p class="product-category">Pod System</p>
+                            <span class="product-price">R$ 149,90</span>
+                        </a>
+                        <button class="add-to-cart-btn">Adicionar ao Carrinho</button>
+                    </div>
+
+                    <!-- ==== PRODUTO 8 ==== -->
+                    <div class="carousel-item product-card">
+                        <a href="produto_detalhe.php?id=8" class="card-link">
+                            <img src="img/voopoo.jfif" alt="VooPoo Drag S">
+                            <h3 class="product-name">VooPoo Drag S</h3>
+                            <p class="product-category">Pod System Avançado</p>
+                            <span class="product-price">R$ 249,90</span>
+                        </a>
+                        <button class="add-to-cart-btn">Adicionar ao Carrinho</button>
+                    </div>
+
+                </div>
             </div>
         </section>
 
     </main>
 
+    <!-- ===================== FOOTER ===================== -->
     <footer class="main-footer">
         <div class="footer-container">
             <p>&copy; 2025 Vaporize Store. Todos os direitos reservados.</p>
             <nav>
-                <a href="#">Sobre Nós</a>
+                <a href="sobre.html">Sobre Nós</a>
                 <a href="#">Política de Troca</a>
-                <a href="#">Contato</a>
+               <a href="https://wa.me/5547984728108" target="_blank" class="whatsapp-link">
+    📱 Fale Conosco no WhatsApp
+</a>
+
             </nav>
         </div>
     </footer>
-    
-    <script src="app.js"></script> 
+
+    <!-- Scripts -->
+    <script src="app.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
-
 
 </body>
 </html>
