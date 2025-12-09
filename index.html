@@ -18,9 +18,7 @@
                 <span class="logo-text">⚡️ Vaporize Store</span>
             </a>
 
-            <nav class="main-nav">
-
-            </nav>
+            <nav class="main-nav"></nav>
 
             <div class="user-tools">
                 <div class="search-box">
@@ -32,7 +30,6 @@
                     <i class="icon">🛒</i>
                     <span class="cart-count">0</span>
                 </a>
-
             </div>
 
             <button class="menu-toggle" aria-label="Abrir Menu">
@@ -55,7 +52,7 @@
 
                     <!-- ==== PRODUTO 1 ==== -->
                     <div class="carousel-item product-card">
-                        <a href="produto_detalhe.php?id=1" class="card-link">
+                        <a href="#" class="card-link">
                             <img src="img/elfbar.png" alt="Elfbar BC5000">
                             <h3 class="product-name">Elfbar BC5000</h3>
                             <p class="product-category">Vape Descartável</p>
@@ -66,7 +63,7 @@
 
                     <!-- ==== PRODUTO 2 ==== -->
                     <div class="carousel-item product-card">
-                        <a href="produto_detalhe.php?id=2" class="card-link">
+                        <a href="#" class="card-link">
                             <img src="img/vapoexpres.jfif" alt="Vaporesso XROS 3">
                             <h3 class="product-name">Vaporesso XROS 3</h3>
                             <p class="product-category">Pod System</p>
@@ -77,7 +74,7 @@
 
                     <!-- ==== PRODUTO 3 ==== -->
                     <div class="carousel-item product-card">
-                        <a href="produto_detalhe.php?id=3" class="card-link">
+                        <a href="#" class="card-link">
                             <img src="img/myjuiceuva.webp" alt="Juice Premium 30ml">
                             <h3 class="product-name">Juice Premium 30ml</h3>
                             <p class="product-category">Juices e Sabores</p>
@@ -88,7 +85,7 @@
 
                     <!-- ==== PRODUTO 4 ==== -->
                     <div class="carousel-item product-card">
-                        <a href="produto_detalhe.php?id=4" class="card-link">
+                        <a href="#" class="card-link">
                             <img src="img/cabousb.jfif" alt="Cabo USB-C">
                             <h3 class="product-name">Cabo USB-C para Pods</h3>
                             <p class="product-category">Acessórios</p>
@@ -99,7 +96,7 @@
 
                     <!-- ==== PRODUTO 5 ==== -->
                     <div class="carousel-item product-card">
-                        <a href="produto_detalhe.php?id=5" class="card-link">
+                        <a href="#" class="card-link">
                             <img src="img/ignite.webp" alt="Ignite V15000">
                             <h3 class="product-name">Ignite V15000</h3>
                             <p class="product-category">Vape Premium</p>
@@ -110,7 +107,7 @@
 
                     <!-- ==== PRODUTO 6 ==== -->
                     <div class="carousel-item product-card">
-                        <a href="produto_detalhe.php?id=9" class="card-link">
+                        <a href="#" class="card-link">
                             <img src="img/voopoo.jfif" alt="VooPoo Argus P1">
                             <h3 class="product-name">VooPoo Argus P1</h3>
                             <p class="product-category">Pod System</p>
@@ -121,7 +118,7 @@
 
                     <!-- ==== PRODUTO 7 ==== -->
                     <div class="carousel-item product-card">
-                        <a href="produto_detalhe.php?id=10" class="card-link">
+                        <a href="#" class="card-link">
                             <img src="img/vapo.jfif" alt="Vaporesso Zero 2">
                             <h3 class="product-name">Vaporesso Zero 2</h3>
                             <p class="product-category">Pod System</p>
@@ -132,7 +129,7 @@
 
                     <!-- ==== PRODUTO 8 ==== -->
                     <div class="carousel-item product-card">
-                        <a href="produto_detalhe.php?id=8" class="card-link">
+                        <a href="#" class="card-link">
                             <img src="img/voopoo.jfif" alt="VooPoo Drag S">
                             <h3 class="product-name">VooPoo Drag S</h3>
                             <p class="product-category">Pod System Avançado</p>
@@ -154,13 +151,38 @@
             <nav>
                 <a href="sobre.html">Sobre Nós</a>
                 <a href="#">Política de Troca</a>
-               <a href="https://wa.me/554796801207" target="_blank" class="whatsapp-link">
-    📱 Fale Conosco no WhatsApp
-</a>
-
+                <a href="https://wa.me/554796801207" target="_blank" class="whatsapp-link">
+                    📱 Fale Conosco no WhatsApp
+                </a>
             </nav>
         </div>
     </footer>
+
+    <!-- ===================== MODAL DO PRODUTO ===================== -->
+<div id="modal-produto" class="modal-produto">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h2>Informações do Pedido</h2>
+
+        <label for="nome">Seu Nome *</label>
+        <input type="text" id="nome" placeholder="Seu nome completo">
+
+        <label for="telefone">WhatsApp *</label>
+        <input type="text" id="telefone" placeholder="(DDD) 00000-0000">
+
+        <label for="endereco">Endereço para Entrega *</label>
+        <input type="text" id="endereco" placeholder="Rua, número, bairro">
+
+        <!-- SABOR - só aparece se o produto for POD/ESSÊNCIA -->
+        <div id="bloco-sabor">
+            <label for="sabor">Sabor do Pod / Essência *</label>
+            <input type="text" id="sabor" placeholder="Ex: Uva, Morango...">
+        </div>
+
+        <button id="btn-enviar" class="btn-confirmar">Confirmar Pedido</button>
+    </div>
+</div>
+
 
     <!-- Scripts -->
     <script src="app.js"></script>
