@@ -4,10 +4,11 @@ const path = require("path");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// servir arquivos estáticos
-app.use(express.static(path.join(__dirname)));
+// Servir arquivos estáticos (html, css, js, img)
+app.use(express.static(__dirname));
 
-app.get("*", (req, res) => {
+// Rota fallback para qualquer caminho
+app.get(/.*/, (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
 });
 
