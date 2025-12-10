@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>⚡️ Vaporize | Sua Loja de Vapes</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <link rel="shortcut icon" href="img/imagemaba.png" type="image/x-icon">
 </head>
 
@@ -150,7 +151,7 @@
             <p>&copy; 2025 Vaporize Store. Todos os direitos reservados.</p>
             <nav>
                 <a href="sobre.html">Sobre Nós</a>
-                <a href="#">Política de Troca</a>
+                <a href="troca.html">Política de Troca</a>
                 <a href="https://wa.me/554796801207" target="_blank" class="whatsapp-link">
                     📱 Fale Conosco no WhatsApp
                 </a>
@@ -184,7 +185,35 @@
 </div>
 
 
+    <!-- Painel do Carrinho / Overlay -->
+    <div id="cart-overlay" class="cart-overlay"></div>
+
+    <aside id="cart-panel" class="cart-panel">
+        <button class="close-cart">×</button>
+        <h3>Seu Carrinho</h3>
+        <ul class="cart-items"></ul>
+        <div class="cart-footer">
+            <div class="cart-total">Total: R$ 0,00</div>
+            <button id="checkout-btn" class="btn-checkout">Finalizar (PIX)</button>
+        </div>
+    </aside>
+
+    <!-- Modal PIX -->
+    <div id="pix-modal" class="pix-modal">
+        <div class="pix-content">
+            <button id="close-pix" class="close-pix">×</button>
+            <h3>Código PIX</h3>
+            <div class="pix-value">Valor: R$ 0,00</div>
+            <textarea id="pix-code" readonly rows="3" style="width:100%"></textarea>
+            <canvas id="pix-qrcode-canvas"></canvas>
+            <div style="margin-top:.5rem">
+                <button id="copy-pix" class="btn-copy">Copiar código</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.js"></script>
     <script src="app.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>

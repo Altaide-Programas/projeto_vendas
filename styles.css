@@ -29,6 +29,20 @@ body {
     line-height: 1.6;
 }
 
+/* Layout base para garantir que o footer fique no final da página */
+html, body {
+    height: 100%;
+}
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1 0 auto; /* permite que o main expanda e empurre o footer para o fim */
+}
+
 a {
     text-decoration: none;
     color: var(--color-primary);
@@ -291,8 +305,11 @@ a {
 .main-footer {
     background-color: var(--color-text-dark);
     color: var(--color-bg-light);
-    padding: 30px 20px;
+    padding: 60px 60px;
     font-size: 0.9rem;
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: auto; /* garante que o footer fique abaixo quando possível */
 }
 
 .footer-container {
@@ -305,7 +322,7 @@ a {
 
 .main-footer nav a {
     color: var(--color-bg-light);
-    margin-left: 20px;
+    margin-left: 40px;
     transition: color 0.2s;
 }
 
@@ -360,6 +377,11 @@ a {
     
     .main-footer nav a {
         margin: 0 10px;
+    }
+
+    /* Ajuste do footer para telas pequenas */
+    .main-footer {
+        padding: 28px 18px;
     }
     
     /* Grid de produtos - 2 colunas */
@@ -568,6 +590,94 @@ a {
     cursor: pointer;
     border-radius: 6px;
 }
+/* Botões e controles do painel do carrinho */
+.cart-panel .close-cart {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #f1f1f1;
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    font-size: 20px;
+    line-height: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+/* Estilo do botão de checkout (compatível com id/class existentes) */
+#checkout-btn,
+.btn-checkout,
+.checkout-btn {
+    width: 100%;
+    background: var(--color-primary);
+    color: #fff;
+    border: none;
+    padding: 12px 14px;
+    margin-top: 8px;
+    cursor: pointer;
+    border-radius: 8px;
+    font-weight: 700;
+    box-shadow: 0 6px 18px rgba(0,123,255,0.12);
+    transition: background-color .18s ease, transform .12s ease;
+}
+
+#checkout-btn:hover,
+.btn-checkout:hover,
+.checkout-btn:hover {
+    background: var(--color-primary-dark);
+    transform: translateY(-1px);
+}
+
+/* Botão de deletar item no carrinho */
+.delete-item {
+    background: #ff4d4f;
+    color: #fff;
+    border: none;
+    padding: 6px 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.cart-item .cart-info {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+/* Close pix and copy buttons */
+.close-pix,
+.btn-copy,
+#copy-pix {
+    background: #f1f1f1;
+    color: #222;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.close-pix:hover,
+.btn-copy:hover,
+#copy-pix:hover {
+    background: #e6e6e6;
+}
+
+/* Pequenos ajustes visuais */
+.cart-panel h3 {
+    margin: 8px 0 14px 0;
+}
+
+.cart-items li.cart-item {
+    padding: 8px 6px;
+    border-radius: 8px;
+    background: #fafafa;
+}
 .pix-modal {
     position: fixed;
     inset: 0;
@@ -647,6 +757,13 @@ a {
     animation: slide 18s linear infinite;
 }
 
+/* Quando o usuário estiver filtrando, pausar slide e centralizar resultados */
+.carousel-track.search-active {
+    animation-play-state: paused;
+    animation: none;
+    justify-content: center;
+}
+
 .carousel-item {
     min-width: 220px;
     background: #fff;
@@ -687,6 +804,18 @@ a {
 @keyframes slide {
     0% { transform: translateX(0); }
     100% { transform: translateX(-50%); }
+}
+
+/* Mensagem exibida quando não há resultados na busca */
+.no-results {
+    margin-top: 14px;
+    padding: 12px 16px;
+    background: #fff6f6;
+    color: #a00;
+    border: 1px solid #f2c2c2;
+    border-radius: 10px;
+    text-align: center;
+    font-weight: 600;
 }
 
 /* ======= MODAL ======= */

@@ -15,6 +15,61 @@ let categoriaSelecionada = "";
 let precoSelecionado = "";
 
 // =========================
+// BUSCA AO DIGITAR (live search)
+// =========================
+const liveSearchInput = document.getElementById('live-search');
+if (liveSearchInput) {
+    const carouselTrack = document.querySelector('.carousel-track');
+    const carouselContainer = document.querySelector('.carousel-container');
+
+    function updateNoResults(show) {
+        let nr = document.querySelector('.no-results');
+        if (show) {
+            if (!nr) {
+                nr = document.createElement('div');
+                nr.className = 'no-results';
+                nr.textContent = 'Nenhum produto encontrado.';
+                if (carouselContainer) carouselContainer.appendChild(nr);
+            }
+        } else {
+            nr?.remove();
+        }
+    }
+
+    liveSearchInput.addEventListener('input', (e) => {
+        const q = String(e.target.value || '').trim().toLowerCase();
+        let visibleCount = 0;
+        document.querySelectorAll('.product-card').forEach(card => {
+            const name = (card.querySelector('.product-name')?.textContent || '').toLowerCase();
+            const category = (card.querySelector('.product-category')?.textContent || '').toLowerCase();
+            const price = (card.querySelector('.product-price')?.textContent || '').toLowerCase();
+            const match = !q || name.includes(q) || category.includes(q) || price.includes(q);
+            card.style.display = match ? '' : 'none';
+            if (match) visibleCount++;
+        });
+
+        // Se há um termo de busca, pause a animação e centralize os resultados
+        if (carouselTrack) {
+            if (q) {
+                carouselTrack.classList.add('search-active');
+            } else {
+                carouselTrack.classList.remove('search-active');
+            }
+        }
+
+        updateNoResults(visibleCount === 0);
+    });
+
+    // permitir tecla Enter para focar no primeiro resultado (acessibilidade)
+    liveSearchInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            const first = document.querySelector('.product-card:not([style*="display: none"]) .card-link');
+            if (first) first.focus();
+        }
+    });
+}
+
+// =========================
 // ABRIR MODAL AO CLICAR EM "ADICIONAR AO CARRINHO"
 // =========================
 document.querySelectorAll(".add-to-cart-btn").forEach((btn, index) => {
@@ -60,48 +115,100 @@ window.addEventListener("click", (e) => {
 // ENVIAR PEDIDO PARA WHATSAPP
 // =========================
 document.getElementById("btn-enviar").addEventListener("click", () => {
-    const nome = inputNome.value.trim();
-    const telefone = inputTelefone.value.trim();
-    const endereco = inputEndereco.value.trim();
-    const sabor = inputSabor.value.trim();
+    console.log('btn-enviar clicked');
+    try {
+        const nome = inputNome.value.trim();
+        const telefone = inputTelefone.value.trim();
+        const endereco = inputEndereco.value.trim();
+        const sabor = inputSabor.value.trim();
 
-    // ====== VALIDAÇÕES ======
-    if (!nome || !telefone || !endereco) {
-        alert("Preencha todos os campos obrigatórios!");
-        return;
+        // ====== VALIDAÇÕES ======
+        if (!nome || !telefone || !endereco) {
+            if (window.Toastify) {
+                Toastify({
+                    text: "Preencha todos os campos obrigatórios!",
+                    duration: 3500,
+                    close: true,
+                    gravity: "top",
+                    position: "right",
+                    style: { background: "#ff6b6b" }
+                }).showToast();
+            } else {
+                alert("Preencha todos os campos obrigatórios!");
+            }
+            return;
+        }
+
+        if (blocoSabor.style.display === "block" && sabor === "") {
+            if (window.Toastify) {
+                Toastify({
+                    text: "Escolha o sabor do Pod / Essência!",
+                    duration: 3500,
+                    close: true,
+                    gravity: "top",
+                    position: "right",
+                    style: { background: "#ff6b6b" }
+                }).showToast();
+            } else {
+                alert("Escolha o sabor do Pod / Essência!");
+            }
+            return;
+        }
+
+        // Número do vendedor
+        const numeroVendedor = "554796801207";
+
+        let mensagem =
+            `🔥 *NOVO PEDIDO* 🔥\n\n` +
+            `👤 *Cliente:* ${nome}\n` +
+            `📱 *WhatsApp:* ${telefone}\n` +
+            `📦 *Produto:* ${produtoSelecionado}\n` +
+            `🏷️ *Categoria:* ${categoriaSelecionada}\n` +
+            `💸 *Preço:* ${precoSelecionado}\n` +
+            `📍 *Endereço:* ${endereco}\n`;
+
+        // Se tiver sabor
+        if (blocoSabor.style.display === "block") {
+            mensagem += `🍓 *Sabor:* ${sabor}\n`;
+        }
+
+        const url = `https://wa.me/${numeroVendedor}?text=${encodeURIComponent(mensagem)}`;
+
+        // Salva o pedido no carrinho local antes de abrir o WhatsApp
+        const precoNumero = parsePriceString(precoSelecionado);
+        addAoCarrinhoComModal(produtoSelecionado, precoNumero, blocoSabor.style.display === "block" ? sabor : "");
+        if (typeof showToast === "function") showToast("Pedido salvo no carrinho!");
+
+        window.open(url, "_blank");
+    } catch (err) {
+        console.error(err);
+        const msg = 'Erro ao processar pedido: ' + (err && err.message ? err.message : err);
+        if (window.Toastify) {
+            Toastify({
+                text: msg,
+                duration: 4500,
+                close: true,
+                gravity: "top",
+                position: "right",
+                style: { background: "#d9534f" }
+            }).showToast();
+        } else {
+            alert(msg);
+        }
     }
-
-    if (blocoSabor.style.display === "block" && sabor === "") {
-        alert("Escolha o sabor do Pod / Essência!");
-        return;
-    }
-
-    // Número do vendedor
-    const numeroVendedor = "554796801207";
-
-    let mensagem =
-        `🔥 *NOVO PEDIDO* 🔥\n\n` +
-        `👤 *Cliente:* ${nome}\n` +
-        `📱 *WhatsApp:* ${telefone}\n` +
-        `📦 *Produto:* ${produtoSelecionado}\n` +
-        `🏷️ *Categoria:* ${categoriaSelecionada}\n` +
-        `💸 *Preço:* ${precoSelecionado}\n` +
-        `📍 *Endereço:* ${endereco}\n`;
-
-    // Se tiver sabor
-    if (blocoSabor.style.display === "block") {
-        mensagem += `🍓 *Sabor:* ${sabor}\n`;
-    }
-
-    const url = `https://wa.me/${numeroVendedor}?text=${encodeURIComponent(mensagem)}`;
-
-    window.open(url, "_blank");
 });
 
 
     /* ==========================================================
        ADICIONAR AO CARRINHO (caso use no futuro)
     ========================================================== */
+    // Converte uma string de preço (ex: "R$ 50,00" ou "50,00") para número
+    function parsePriceString(priceStr) {
+        if (!priceStr) return 0;
+        const cleaned = priceStr.replace(/[^\d,\.\-]/g, '').replace(',', '.');
+        return parseFloat(cleaned) || 0;
+    }
+
     function addAoCarrinhoComModal(name, price, sabor) {
         const itemFinal = sabor ? `${name} - Sabor: ${sabor}` : name;
 
