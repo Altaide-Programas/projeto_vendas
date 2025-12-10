@@ -380,3 +380,81 @@ document.getElementById("btn-enviar").addEventListener("click", () => {
     });
 
     renderCart();
+// =============== CARROSSEL AUTOMÁTICO + ARRASTAR =====================
+
+// Pegando elementos
+const carouselContainer = document.querySelector(".carousel-container");
+const carouselTrack = document.querySelector(".carousel-track");
+
+// Velocidade do autoplay
+let autoPlaySpeed = 3000; // 3 segundos
+
+// Função AutoPlay
+function autoPlayCarousel() {
+    const itemWidth = carouselTrack.children[0].offsetWidth + 16; // largura + gap
+    carouselContainer.scrollLeft += itemWidth;
+
+    // Se chegar ao final, volta ao início
+    if (carouselContainer.scrollLeft + carouselContainer.offsetWidth >= carouselContainer.scrollWidth - 5) {
+        carouselContainer.scrollLeft = 0;
+    }
+}
+
+// Iniciar autoplay
+let autoPlayInterval = setInterval(autoPlayCarousel, autoPlaySpeed);
+
+// Pausar autoplay quando o usuário interagir
+carouselContainer.addEventListener("mouseenter", () => clearInterval(autoPlayInterval));
+carouselContainer.addEventListener("mouseleave", () => {
+    autoPlayInterval = setInterval(autoPlayCarousel, autoPlaySpeed);
+});
+
+// =============== ARRASTAR COM MOUSE E DEDO =====================
+
+let isDown = false;
+let startX;
+let scrollLeft;
+
+// Mouse
+carouselContainer.addEventListener("mousedown", (e) => {
+    isDown = true;
+    startX = e.pageX - carouselContainer.offsetLeft;
+    scrollLeft = carouselContainer.scrollLeft;
+    carouselContainer.classList.add("active");
+});
+
+carouselContainer.addEventListener("mouseleave", () => {
+    isDown = false;
+    carouselContainer.classList.remove("active");
+});
+
+carouselContainer.addEventListener("mouseup", () => {
+    isDown = false;
+    carouselContainer.classList.remove("active");
+});
+
+carouselContainer.addEventListener("mousemove", (e) => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - carouselContainer.offsetLeft;
+    const walk = (x - startX) * 1.5; 
+    carouselContainer.scrollLeft = scrollLeft - walk;
+});
+
+// Touch (celular)
+carouselContainer.addEventListener("touchstart", (e) => {
+    isDown = true;
+    startX = e.touches[0].pageX - carouselContainer.offsetLeft;
+    scrollLeft = carouselContainer.scrollLeft;
+});
+
+carouselContainer.addEventListener("touchend", () => {
+    isDown = false;
+});
+
+carouselContainer.addEventListener("touchmove", (e) => {
+    if (!isDown) return;
+    const x = e.touches[0].pageX - carouselContainer.offsetLeft;
+    const walk = (x - startX) * 1.5;
+    carouselContainer.scrollLeft = scrollLeft - walk;
+});

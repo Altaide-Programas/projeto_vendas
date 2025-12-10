@@ -880,3 +880,16 @@ a {
 #bloco-sabor {
     display: none;
 }
+.carousel-container {
+    overflow-x: auto;
+    scroll-behavior: smooth;
+}
+
+.carousel-track {
+    display: flex;
+    gap: 1rem;
+}
+
+.carousel-container::-webkit-scrollbar {
+    display: none;
+}
