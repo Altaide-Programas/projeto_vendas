@@ -7,8 +7,10 @@ const closeModal = document.querySelector(".close-modal");
 const inputNome = document.getElementById("nome");
 const inputTelefone = document.getElementById("telefone");
 const inputEndereco = document.getElementById("endereco");
-const inputSabor = document.getElementById("sabor");
 const blocoSabor = document.getElementById("bloco-sabor");
+const flavorsContainer = document.getElementById("flavors-container");
+
+let isCombo = false; // flag para tratamento de combo (3 por 250)
 
 let produtoSelecionado = "";
 let categoriaSelecionada = "";
@@ -19,7 +21,7 @@ let precoSelecionado = "";
 // =========================
 const liveSearchInput = document.getElementById('live-search');
 if (liveSearchInput) {
-    const carouselTrack = document.querySelector('.carousel-track');
+    const carouselTrack = document.querySelector('.carousel-tracS');
     const carouselContainer = document.querySelector('.carousel-container');
 
     function updateNoResults(show) {
@@ -80,8 +82,7 @@ document.querySelectorAll(".add-to-cart-btn").forEach((btn, index) => {
         categoriaSelecionada = card.querySelector(".product-category").textContent.toLowerCase();
         precoSelecionado = card.querySelector(".product-price").textContent;
 
-        // ======= LÓGICA CORRETA ========
-        // Mostrar sabor SOMENTE se for pod/essência
+        // Mostrar campo(s) de sabor SOMENTE se for pod/essência
         if (
             categoriaSelecionada.includes("pod") ||
             categoriaSelecionada.includes("vape") ||
@@ -90,15 +91,37 @@ document.querySelectorAll(".add-to-cart-btn").forEach((btn, index) => {
             categoriaSelecionada.includes("sabores") ||
             categoriaSelecionada.includes("essência")
         ) {
-            blocoSabor.style.display = "block";
+            createFlavorInputs(1);
+            isCombo = false;
         } else {
-            blocoSabor.style.display = "none";
-            inputSabor.value = "";
+            hideFlavorInputs();
+            isCombo = false;
         }
 
         modal.style.display = "flex";
     });
 });
+
+// Helpers para inputs de sabor dinâmicos
+function createFlavorInputs(count) {
+    if (!flavorsContainer) return;
+    flavorsContainer.innerHTML = '';
+    for (let i = 0; i < count; i++) {
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.className = 'sabor-input';
+        input.placeholder = count === 1 ? 'Ex: Uva, Morango...' : `Sabor ${i+1} (Ex: Uva)`;
+        input.id = count === 1 ? 'sabor' : `sabor${i+1}`;
+        flavorsContainer.appendChild(input);
+    }
+    blocoSabor.style.display = 'block';
+}
+
+function hideFlavorInputs() {
+    if (!flavorsContainer) return;
+    flavorsContainer.innerHTML = '';
+    blocoSabor.style.display = 'none';
+}
 
 // =========================
 // FECHAR MODAL
@@ -120,7 +143,16 @@ document.getElementById("btn-enviar").addEventListener("click", () => {
         const nome = inputNome.value.trim();
         const telefone = inputTelefone.value.trim();
         const endereco = inputEndereco.value.trim();
-        const sabor = inputSabor.value.trim();
+        // coletar sabores (suporta 1 ou vários inputs dinamicamente)
+        let sabor = "";
+        const flavorInputs = flavorsContainer ? flavorsContainer.querySelectorAll('.sabor-input') : [];
+        const flavorValues = [];
+        flavorInputs.forEach(fi => {
+            if (fi && fi.value) flavorValues.push(fi.value.trim());
+            else flavorValues.push('');
+        });
+        if (flavorValues.length === 1) sabor = flavorValues[0] || '';
+        else if (flavorValues.length > 1) sabor = flavorValues.join(', ');
 
         // ====== VALIDAÇÕES ======
         if (!nome || !telefone || !endereco) {
@@ -139,7 +171,7 @@ document.getElementById("btn-enviar").addEventListener("click", () => {
             return;
         }
 
-        if (blocoSabor.style.display === "block" && sabor === "") {
+        if (blocoSabor.style.display === "block" && flavorValues.some(v => v === "")) {
             if (window.Toastify) {
                 Toastify({
                     text: "Escolha o sabor do Pod / Essência!",
@@ -176,6 +208,7 @@ document.getElementById("btn-enviar").addEventListener("click", () => {
 
         // Salva o pedido no carrinho local antes de abrir o WhatsApp
         const precoNumero = parsePriceString(precoSelecionado);
+        // para combo, adiciona como um item único com os sabores listados
         addAoCarrinhoComModal(produtoSelecionado, precoNumero, blocoSabor.style.display === "block" ? sabor : "");
         if (typeof showToast === "function") showToast("Pedido salvo no carrinho!");
 
@@ -380,6 +413,31 @@ document.getElementById("btn-enviar").addEventListener("click", () => {
     });
 
     renderCart();
+    
+    // ======= HANDLERS PARA BOTÕES DE PROMOÇÕES (ABREM O MODAL PARA ESCOLHA DE SABORES) =======
+    document.querySelectorAll('.promo-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const card = btn.closest('.promo-card');
+            if (!card) return;
+
+            produtoSelecionado = card.querySelector('h3')?.textContent.trim() || 'Promoção';
+            const priceEl = card.querySelector('.price-promo')?.textContent || card.querySelector('.price-original')?.textContent || 'R$ 0,00';
+            precoSelecionado = priceEl;
+            categoriaSelecionada = 'promo';
+
+            if (card.classList.contains('promo-combo')) {
+                // Combo 3 por 250: pedir 3 sabores
+                createFlavorInputs(3);
+                isCombo = true;
+            } else {
+                // Promoção normal: permitir 1 sabor (quando aplicável)
+                createFlavorInputs(1);
+                isCombo = false;
+            }
+
+            modal.style.display = 'flex';
+        });
+    });
 // =============== CARROSSEL AUTOMÁTICO + ARRASTAR =====================
 
 // Pegando elementos
