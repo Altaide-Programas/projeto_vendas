@@ -76,22 +76,38 @@ if (liveSearchInput) {
 // =========================
 document.querySelectorAll(".add-to-cart-btn").forEach((btn, index) => {
     btn.addEventListener("click", () => {
-        const card = btn.closest(".product-card");
+        const card = btn.closest(".product-card") || btn.closest(".promo-card");
 
-        produtoSelecionado = card.querySelector(".product-name").textContent;
-        categoriaSelecionada = card.querySelector(".product-category").textContent.toLowerCase();
-        precoSelecionado = card.querySelector(".product-price").textContent;
+        if (!card) return; // safety check
 
-        // Mostrar campo(s) de sabor SOMENTE se for pod/essência
+        // Handle different card structures
+        let nameEl, categoryEl, priceEl;
+        if (card.classList.contains("product-card")) {
+            nameEl = card.querySelector(".product-name");
+            categoryEl = card.querySelector(".product-category");
+            priceEl = card.querySelector(".product-price");
+        } else if (card.classList.contains("promo-card")) {
+            nameEl = card.querySelector("h3");
+            categoryEl = null; // essences don't have category, but we'll set it to "essência"
+            priceEl = card.querySelector(".price-promo");
+        }
+
+        produtoSelecionado = nameEl ? nameEl.textContent : "";
+        categoriaSelecionada = categoryEl ? categoryEl.textContent.toLowerCase() : "essência";
+        precoSelecionado = priceEl ? priceEl.textContent : "";
+
+        // Mostrar campo(s) de sabor SOMENTE se for pod/vape
         if (
             categoriaSelecionada.includes("pod") ||
             categoriaSelecionada.includes("vape") ||
             categoriaSelecionada.includes("descartável") ||
             categoriaSelecionada.includes("juice") ||
-            categoriaSelecionada.includes("sabores") ||
-            categoriaSelecionada.includes("essência")
+            categoriaSelecionada.includes("sabores")
         ) {
             createFlavorInputs(1);
+            isCombo = false;
+        } else if (categoriaSelecionada.includes("essência")) {
+            createFlavorInputs(2);
             isCombo = false;
         } else {
             hideFlavorInputs();
@@ -426,8 +442,8 @@ document.getElementById("btn-enviar").addEventListener("click", () => {
             categoriaSelecionada = 'promo';
 
             if (card.classList.contains('promo-combo')) {
-                // Combo 3 por 250: pedir 3 sabores
-                createFlavorInputs(3);
+                // Combo 2 por preço: pedir 2 sabores
+                createFlavorInputs(2);
                 isCombo = true;
             } else {
                 // Promoção normal: permitir 1 sabor (quando aplicável)
