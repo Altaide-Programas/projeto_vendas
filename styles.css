@@ -64,8 +64,9 @@ a {
     margin: 0 auto;
     padding: 15px 20px;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
+    position: relative;
 }
 
 .logo-text {
@@ -100,6 +101,10 @@ a {
     display: flex;
     align-items: center;
     gap: 20px;
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .icon {
@@ -157,6 +162,18 @@ a {
 
 .menu-toggle { display: none; } /* Esconder em desktop */
 
+
+/* ============================================== */
+/* STOCK BANNER */
+/* ============================================== */
+.stock-banner {
+    background-color: #ff6b6b;
+    color: white;
+    padding: 15px 20px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
 
 /* ============================================== */
 /* 2. BANNER PRINCIPAL (HERO) */
