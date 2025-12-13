@@ -107,7 +107,7 @@ document.querySelectorAll(".add-to-cart-btn").forEach((btn, index) => {
             createFlavorInputs(1);
             isCombo = false;
         } else if (categoriaSelecionada.includes("essência")) {
-            createFlavorInputs(2);
+            hideFlavorInputs();
             isCombo = false;
         } else {
             hideFlavorInputs();
