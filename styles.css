@@ -64,9 +64,8 @@ a {
     margin: 0 auto;
     padding: 15px 20px;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    position: relative;
 }
 
 .logo-text {
@@ -101,10 +100,6 @@ a {
     display: flex;
     align-items: center;
     gap: 20px;
-    position: absolute;
-    right: 20px;
-    top: 50%;
-    transform: translateY(-50%);
 }
 
 .icon {
@@ -174,6 +169,7 @@ a {
     font-weight: bold;
     font-size: 1.2rem;
 }
+
 
 /* ============================================== */
 /* 2. BANNER PRINCIPAL (HERO) */
