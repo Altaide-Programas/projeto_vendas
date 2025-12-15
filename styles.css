@@ -856,6 +856,34 @@ a {
     font-size: 20px;
 }
 
+/* Modal - info do produto (nome + preço) */
+.modal-product-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f7f7fb;
+    border: 1px solid #e6e6ee;
+    padding: 10px 12px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+}
+.modal-product-info .mpi-left {
+    display: flex;
+    flex-direction: column;
+}
+.modal-product-info strong {
+    font-size: 1rem;
+}
+.modal-product-info .mpi-right {
+    font-weight: 700;
+    color: #ff6b6b;
+}
+.modal-combo-info {
+    font-size: 0.85rem;
+    color: #666;
+    margin-top: 4px;
+}
+
 .modal-content label {
     display: block;
     margin-top: 10px;

@@ -21,17 +21,20 @@ let precoSelecionado = "";
 // =========================
 const liveSearchInput = document.getElementById('live-search');
 if (liveSearchInput) {
-    const carouselTrack = document.querySelector('.carousel-tracS');
+    // fix: use correct class name and allow toggling pause when searching
+    const carouselTrack = document.querySelector('.carousel-track');
     const carouselContainer = document.querySelector('.carousel-container');
 
     function updateNoResults(show) {
         let nr = document.querySelector('.no-results');
+        const host = document.querySelector('main') || document.body;
         if (show) {
             if (!nr) {
                 nr = document.createElement('div');
                 nr.className = 'no-results';
                 nr.textContent = 'Nenhum produto encontrado.';
-                if (carouselContainer) carouselContainer.appendChild(nr);
+                // append to main so it's visible regardless of which section had matches
+                host.appendChild(nr);
             }
         } else {
             nr?.remove();
@@ -41,22 +44,23 @@ if (liveSearchInput) {
     liveSearchInput.addEventListener('input', (e) => {
         const q = String(e.target.value || '').trim().toLowerCase();
         let visibleCount = 0;
-        document.querySelectorAll('.product-card').forEach(card => {
-            const name = (card.querySelector('.product-name')?.textContent || '').toLowerCase();
+        // search across product cards and promo cards (carousel, essências, promoções)
+        document.querySelectorAll('.product-card, .promo-card').forEach(card => {
+            const name = (card.querySelector('.product-name')?.textContent || card.querySelector('h3')?.textContent || '').toLowerCase();
             const category = (card.querySelector('.product-category')?.textContent || '').toLowerCase();
-            const price = (card.querySelector('.product-price')?.textContent || '').toLowerCase();
-            const match = !q || name.includes(q) || category.includes(q) || price.includes(q);
+            const price = (card.querySelector('.product-price')?.textContent || card.querySelector('.price-promo')?.textContent || card.querySelector('.price-original')?.textContent || '').toLowerCase();
+            const badge = (card.querySelector('.promo-badge')?.textContent || '').toLowerCase();
+            const imgAlt = (card.querySelector('img')?.alt || '').toLowerCase();
+            const combined = (name + ' ' + category + ' ' + price + ' ' + badge + ' ' + imgAlt + ' ' + (card.textContent || '')).toLowerCase();
+            const match = !q || combined.includes(q);
             card.style.display = match ? '' : 'none';
             if (match) visibleCount++;
         });
 
         // Se há um termo de busca, pause a animação e centralize os resultados
         if (carouselTrack) {
-            if (q) {
-                carouselTrack.classList.add('search-active');
-            } else {
-                carouselTrack.classList.remove('search-active');
-            }
+            if (q) carouselTrack.classList.add('search-active');
+            else carouselTrack.classList.remove('search-active');
         }
 
         updateNoResults(visibleCount === 0);
@@ -65,8 +69,12 @@ if (liveSearchInput) {
     // permitir tecla Enter para focar no primeiro resultado (acessibilidade)
     liveSearchInput.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
-            const first = document.querySelector('.product-card:not([style*="display: none"]) .card-link');
-            if (first) first.focus();
+            // find the first visible product or promo card and focus the main link/button inside
+            const firstCard = document.querySelector('.product-card:not([style*="display: none"]), .promo-card:not([style*="display: none"])');
+            if (firstCard) {
+                const link = firstCard.querySelector('.card-link, a, button, h3');
+                if (link && typeof link.focus === 'function') link.focus();
+            }
         }
     });
 }
@@ -85,6 +93,7 @@ document.querySelectorAll(".add-to-cart-btn").forEach((btn, index) => {
         if (card.classList.contains("product-card")) {
             nameEl = card.querySelector(".product-name");
             categoryEl = card.querySelector(".product-category");
+            // Carousel product cards don't have a dedicated price element; try to find one
             priceEl = card.querySelector(".product-price");
         } else if (card.classList.contains("promo-card")) {
             nameEl = card.querySelector("h3");
@@ -94,7 +103,15 @@ document.querySelectorAll(".add-to-cart-btn").forEach((btn, index) => {
 
         produtoSelecionado = nameEl ? nameEl.textContent : "";
         categoriaSelecionada = categoryEl ? categoryEl.textContent.toLowerCase() : "essência";
-        precoSelecionado = priceEl ? priceEl.textContent : "";
+        // If there's not a dedicated price element, try to extract the price from the name text
+        precoSelecionado = "";
+        if (priceEl && priceEl.textContent.trim()) {
+            precoSelecionado = priceEl.textContent.trim();
+        } else if (nameEl && nameEl.textContent) {
+            precoSelecionado = extractPriceFromText(nameEl.textContent) || "";
+        }
+
+        // Se nenhum preço for extraído, mantemos string vazia (o parse cuidará disso).
 
         // Mostrar campo(s) de sabor SOMENTE se for pod/vape
         if (
@@ -117,6 +134,23 @@ document.querySelectorAll(".add-to-cart-btn").forEach((btn, index) => {
         modal.style.display = "flex";
     });
 });
+
+// Helper: given some text, extract the best R$ price found (prefer 'agora' price)
+// Returns the matched text like 'R$ 38,94' or empty string when nothing matches.
+function extractPriceFromText(text) {
+    if (!text || !text.match) return "";
+    // find all occurrences like 'R$ 123,45' (supports thousands separators)
+    const all = text.match(/R\$\s*\d{1,3}(?:[\.,]\d{3})*(?:[\.,]\d{2})/gi);
+    if (!all || !all.length) return "";
+    // Prefer a pattern containing 'agora' (ex: 'Agora R$ 38,94')
+    const agora = text.match(/agora\s*R\$\s*\d{1,3}(?:[\.,]\d{3})*(?:[\.,]\d{2})/i);
+    if (agora) {
+        const m = agora[0].match(/R\$\s*\d{1,3}(?:[\.,]\d{3})*(?:[\.,]\d{2})/i);
+        if (m) return m[0].trim();
+    }
+    // fallback: return the last occurrence (usually the current price)
+    return all[all.length - 1].trim();
+}
 
 // Helpers para inputs de sabor dinâmicos
 function createFlavorInputs(count) {
@@ -154,7 +188,6 @@ window.addEventListener("click", (e) => {
 // ENVIAR PEDIDO PARA WHATSAPP
 // =========================
 document.getElementById("btn-enviar").addEventListener("click", () => {
-    console.log('btn-enviar clicked');
     try {
         const nome = inputNome.value.trim();
         const telefone = inputTelefone.value.trim();
@@ -310,9 +343,11 @@ document.getElementById("btn-enviar").addEventListener("click", () => {
         cartOverlay.classList.remove("active");
     });
 
-    cartOverlay.addEventListener("click", () =>
-        cartPanel.classList.remove("active")
-    );
+    // Clicking overlay should close both the cart panel AND the overlay itself
+    cartOverlay.addEventListener("click", () => {
+        cartPanel.classList.remove("active");
+        cartOverlay.classList.remove("active");
+    });
 
     function updateCartCount() {
         const totalQty = cart.reduce((s, it) => s + (it.quantity||0), 0);
